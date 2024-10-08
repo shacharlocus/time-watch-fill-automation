@@ -1,0 +1,34 @@
+{
+  "name": "time-watch-fill-automation",
+  "version": "1.0.0",
+  "main": "src/index.ts",
+  "scripts": {
+    "fill": "ts-node .",
+    "build": "tsc",
+    "package": "npm run build; pkg . --targets node14-macos-x64"
+  },
+  "author": "Shachar Eilenberg",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@types/selenium-webdriver": "^4.1.24",
+    "selenium-webdriver": "^4.23.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.4"
+  },
+  "bin": {
+    "time-watch-fill-automation": "dist/src/index.js"
+  },
+  "pkg": {
+    "scripts": [
+      "dist/**/*.js"
+    ],
+    "assets": [
+      "node_modules/**/*"
+    ],
+    "outputPath": "."
+  },
+  "dependencies": {
+    "chromedriver": "^128.0.3"
+  }
+}
