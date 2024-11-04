@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "src/index.ts",
   "scripts": {
-    "fill": "ts-node .",
+    "chromedriver:update": "npm install -D chromedriver@latest",
+    "fill": "npm run chromedriver:update && ts-node .",
     "build": "tsc",
     "package": "npm run build; pkg . --targets node14-macos-x64"
   },
@@ -12,6 +13,7 @@
   "description": "",
   "devDependencies": {
     "@types/selenium-webdriver": "^4.1.24",
+    "chromedriver": "^130.0.2",
     "selenium-webdriver": "^4.23.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.5.4"
@@ -27,8 +29,5 @@
       "node_modules/**/*"
     ],
     "outputPath": "."
-  },
-  "dependencies": {
-    "chromedriver": "^128.0.3"
   }
 }
