@@ -13,12 +13,27 @@ const waitForElement = async (
   by: By,
   webElement?: WebElement,
   timeout: number = 1000
-) => {
+): Promise<WebElement | null> => {
   try {
     await driver.wait(until.elementLocated(by), timeout);
     return (webElement || driver).findElement(by);
+    const element = await (webElement || driver).findElement(by);
+    driver.executeScript("arguments[0].scrollIntoView(true);", element);
+    return element;
   } catch (e) {
     return null;
+  }
+};
+
+const click = async (element: WebElement | null, attempt = 0) => {
+  try {
+    if (element && attempt < 3) {
+      element.click();
+    }
+  } catch (e) {
+    await driver.sleep(200);
+    click(element, ++attempt);
+    console.error(e);
   }
 };
 
@@ -38,7 +53,7 @@ const login = async () => {
   (await waitForElement(driver, By.id("login-pw-input")))?.sendKeys(
     ENVIRONMENT.password
   );
-  (await waitForElement(driver, By.css('button[type="submit"]')))?.click();
+  await click(await waitForElement(driver, By.css('button[type="submit"]')));
   await driver.sleep(1000);
 };
 
@@ -58,7 +73,7 @@ const fillAttendance = async () => {
       By.xpath(`//td[text()='${tdText}']`)
     ))
   ) {
-    element.click();
+    click(element);
 
     try {
       isHolidayEve = !!(await element.findElement(
@@ -104,12 +119,12 @@ const fillAttendance = async () => {
     (await waitForElement(driver, By.id("xmm0"), modal))?.sendKeys(endMinutes);
     await driver.sleep(500);
 
-    (
+    await click((
       await waitForElement(
         driver,
         By.xpath(`//button[text()='${approveText}']`)
       )
-    )?.click();
+    ));
     await driver.sleep(1500);
   }
 };
