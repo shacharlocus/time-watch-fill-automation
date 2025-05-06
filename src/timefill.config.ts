@@ -1,6 +1,6 @@
 export interface DateRange { start: string; end: string; }
 
-/** mark these as vacation (only Mon–Fri will be used) */
+/** mark these as vacation (only Sun–Mon will be used) */
 export const VACATIONS: DateRange[] = [
 //   { start: '2025-05-08', end: '2025-05-30' }
 ];
